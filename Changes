@@ -38,3 +38,6 @@ Revision history for Perl extension Math::Random::MT::Perl.
 1.06 Fri Sep 4 2009
     - added ability to automatically and rapidly generate different seeds and
       return it to allow the generation of identical random number series
+
+1.07 Thu Jan 19 2012
+    - synchronised the autoseeding mechanism with that of Math::Random::MT

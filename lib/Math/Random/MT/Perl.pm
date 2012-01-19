@@ -5,7 +5,7 @@ use warnings;
 use Time::HiRes qw(gettimeofday); # standard in Perl >= 5.8
 
 use vars qw($VERSION);
-$VERSION = 1.06;
+$VERSION = 1.07;
 
 my $N = 624;
 my $M = 397;
