@@ -67,18 +67,14 @@ sub srand {
 }
 
 sub _rand_seed {
-    # Create a random seed using Perl's builtin random number generator system
     my ($self) = @_;
-    # 1/ Seed Perl's srand() with a temporary random seed that varies quickly
-    # in time so that no two identical seeds are obtained if several seeds are
-    # automatically generated in a short time interval
-    my $tmp_seed = (gettimeofday)[1]; # time in microseconds
-    CORE::srand($tmp_seed);
-    # 2/ Generate the random seed to use using Perl's builtin rand() (unsigned
-    # 32-bit integer)
-    my $max = int(2**32-1); # Largest unsigned 32-bit integer
-    my $rand_seed = int(CORE::rand($max+1)); # An integer between 0 and $max
-    return $rand_seed;
+
+    # Seed rand with the same gettimeofday-based formula that is
+    # used in Perl 5.14, and return an integer between 0 and 2**32-1.
+
+    my ($s, $u) = gettimeofday;
+    CORE::srand(1000003*$s+3*$u);
+    return int(CORE::rand(2**32));
 }
 
 # Note that we need to use integer some of the time to force integer overflow
