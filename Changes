@@ -1,0 +1,40 @@
+Revision history for Perl extension Math::Random::MT::Perl.
+
+1.00  Tue May 20 17:03:16 2008
+    - original version; created by h2xs 1.23 with options
+        -AX Math::Random::MT::Perl
+
+1.01  Thur May 22 2008
+    - implemented array of seeds to complete compatability with C version
+    - added script validate.pl to /t which "proves" output identical to C
+      where proves means produces the same output over > 10e8 runs
+    - added extra test to 5.t that demonstrated an issue with array laver
+
+1.02 Fri May 23 2008
+    - implemented & 0xffffffff where required to constrain integers to
+      32 bits on 64 bit systems. thanks to almut from perlmonks for the
+      testing and the solution.
+
+1.03 Sat May 24 2008
+    - patched test files to limit floating point to 12 sig figures and avoid
+      spurious test failures on 64 bit systems which return longer floating
+      point numbers that 32 bit builds (18 digits vs 15).with underlying
+      integers from 0..2**32-1 there are actually only 10 sig figs.
+    - reversed the ok(expected,got) test format acquired from
+      Math::Random::MTto the correct ok(got,expected) order so the test
+      failures read correctly.
+
+1.04 Sat May 24 2008
+    - are we there yet? apparently not. fix breakage on BSD with perl 5.005
+      where use of "our" is deprecated caused total failure.
+    - minor documentation fixes
+    - added benchmark.pl to validate.pl in /t for comparing performance to
+      Math::Random::MT. you can only run them if you can install both versions
+      and if you can do that you don't really need this module!
+
+1.05 Tues June 3 2008
+    - new build process mostly kwalitee specified test metrics and fixes
+
+1.06 Fri Sep 4 2009
+    - added ability to automatically and rapidly generate different seeds and
+      return it to allow the generation of identical random number series
