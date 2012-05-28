@@ -41,3 +41,8 @@ Revision history for Perl extension Math::Random::MT::Perl.
 
 1.07 Thu Jan 19 2012
     - synchronised the autoseeding mechanism with that of Math::Random::MT
+
+1.08 Mon May 28 2012
+    - synchronised the autoseeding mechanism with that of Math::Random::MT that
+      is more elegant and portable
+

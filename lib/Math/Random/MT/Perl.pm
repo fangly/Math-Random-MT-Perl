@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 1.07;
+$VERSION = 1.08;
 
 my $N = 624;
 my $M = 397;
