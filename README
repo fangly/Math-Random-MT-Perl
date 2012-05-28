@@ -31,7 +31,7 @@ To install this module type the following:
    make test
    make install
 
-Substitute nmake for make on Win32.
+Instead of make, use dmake or nmake on Win32.
 
 DEPENDENCIES
 
