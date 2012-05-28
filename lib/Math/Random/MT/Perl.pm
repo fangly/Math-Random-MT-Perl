@@ -2,7 +2,6 @@ package Math::Random::MT::Perl;
 
 use strict;
 use warnings;
-use Time::HiRes qw(gettimeofday); # standard in Perl >= 5.8
 
 use vars qw($VERSION);
 $VERSION = 1.07;
@@ -69,11 +68,11 @@ sub srand {
 sub _rand_seed {
     my ($self) = @_;
 
-    # Seed rand with the same gettimeofday-based formula that is
-    # used in Perl 5.14, and return an integer between 0 and 2**32-1.
-
-    my ($s, $u) = gettimeofday;
-    CORE::srand(1000003*$s+3*$u);
+    # Get a seed at random through Perl's CORE::rand(). We do not call
+    # CORE::srand() to avoid altering the random numbers that other parts of
+    # the running script might be using. The seeds obtained by rapid calls to
+    # the _rand_seed() function are all different.
+    
     return int(CORE::rand(2**32));
 }
 
