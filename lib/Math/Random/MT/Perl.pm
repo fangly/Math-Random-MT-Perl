@@ -13,6 +13,7 @@ my $LOW_MASK = 0x7fffffff;
 
 my $gen = undef;
 
+
 sub new {
     # Create a Math::Random::MT::Perl object
     my ($class, @seeds) = @_;
@@ -23,8 +24,9 @@ sub new {
     return $self;
 }
 
+
 sub rand {
-    # Generate a random number
+    # Generate a random number in requested range
     my ($self, $range) = @_;
     if (ref $self) {
         return ($range || 1) * $self->_mt_genrand();
@@ -36,11 +38,26 @@ sub rand {
     }
 }
 
+
+sub irand {
+    # Generate a random integer
+    my ($self) = @_;
+    if (ref $self) {
+        return $self->_mt_genirand();
+    }
+    else {
+        Math::Random::MT::Perl::srand() unless defined $gen;
+        return $gen->_mt_genirand();
+    }
+}
+
+
 sub get_seed {
     # Get the seed
     my ($self) = @_;
     return $self->{seed};
 }
+
 
 sub set_seed {
     # Set the seed
@@ -52,6 +69,7 @@ sub set_seed {
                  $self->_mt_init_seed($seeds[0]||_rand_seed());
     return 1;
 }
+
 
 sub srand {
     # Seed the random number generator, automatically generating a seed if none
@@ -65,6 +83,7 @@ sub srand {
     return $seed;
 }
 
+
 sub _rand_seed {
     my ($self) = @_;
 
@@ -75,6 +94,7 @@ sub _rand_seed {
     
     return int(CORE::rand(2**32));
 }
+
 
 # Note that we need to use integer some of the time to force integer overflow
 # rollover ie 2**32+1 => 0. Unfortunately we really want uint but integer
@@ -94,6 +114,7 @@ sub _mt_init_seed {
     $self->{mti} = $N;
     $self->{seed} = ${$self->{mt}}[0];
 }
+
 
 sub _mt_setup_array {
     my ($self, @seeds) = @_;
@@ -126,7 +147,14 @@ sub _mt_setup_array {
     $self->{seed} = ${$self->{mt}}[0];
 }
 
+
 sub _mt_genrand {
+    my ($self) = @_;
+    return $self->_mt_genirand*(1.0/4294967296.0);
+}
+
+
+sub _mt_genirand {
     my ($self) = @_;
     my ($kk, $y);
     my @mag01 = (0x0, 0x9908b0df);
@@ -148,16 +176,18 @@ sub _mt_genrand {
     $y ^= ($y <<  7) & 0x9d2c5680;
     $y ^= ($y << 15) & 0xefc60000;
     $y ^= $y >> 18;
-    return $y*(1.0/4294967296.0);
+    return $y;
 }
+
 
 sub import {
     no strict 'refs';
     my $pkg = caller;
     for my $sym (@_) {
-       *{"${pkg}::$sym"} = \&$sym  if $sym eq "srand" or $sym eq "rand";
+       *{"${pkg}::$sym"} = \&$sym  if $sym eq "srand" or $sym eq "rand" or $sym eq "irand";
     }
 }
+
 
 1;
 
@@ -183,13 +213,11 @@ Math::Random::MT::Perl - Pure Perl Mersenne Twister Random Number Generator
   $dice = int($gen->rand(6)+1);         # random integer between 1 and 6
   $coin = $gen->rand() < 0.5 ?          # flip a coin
     "heads" : "tails"
+  $int = $gen->irand();                 # random integer in [0, 2^32-1]
 
   ## Function-oriented interface
-  use Math::Random::MT qw(srand rand);
-  $seed = srand();       # OR...
-  $seed = srand($seed);  # OR...
-  $seed = srand(@seeds);
-  # rand() behaves as usual in Perl, but is more precise
+  use Math::Random::MT::Perl qw(srand rand irand);
+  # now use srand() and rand() as you usually do in Perl
 
 =head1 DESCRIPTION
 
@@ -222,12 +250,6 @@ Creates a new generator. It can be provided with a single unsigned 32-bit
 integer, an array of them, or nothing. If no argument is passed, it is
 automatically seeded with a random seed.
 
-=item rand($num)
-
-Behaves exactly like Perl's builtin I<rand()>, returning a number uniformly
-distributed in [0, $num) ($num defaults to 1), except that the underlying
-complexity is 32 bits rather than a fraction of it (~15).
-
 =item set_seed()
 
 Seeds the generator. It takes the same arguments as I<new()>.
@@ -235,6 +257,18 @@ Seeds the generator. It takes the same arguments as I<new()>.
 =item get_seed()
 
 Retrieves the value of the seed used.
+
+=back
+
+=item rand($num)
+
+Behaves exactly like Perl's builtin I<rand()>, returning a number uniformly
+distributed in [0, $num) ($num defaults to 1), except that the underlying
+complexity is 32 bits rather than a fraction of it (~15).
+
+=item irand()
+
+Returns a 32-bit integer, i.e. an integer uniformly distributed in [0, 2^32-1].
 
 =back
 
@@ -253,6 +287,10 @@ explicitly before you call I<rand()> for the first time.
 Behaves exactly like Perl's builtin I<rand()>, returning a number uniformly
 distributed in [0, $num) ($num defaults to 1), except that the underlying
 complexity is 32 bits rather than a fraction of it (~15).
+
+=item irand()
+
+Returns a 32-bit integer, i.e. an integer uniformly distributed in [0, 2^32-1].
 
 =back
 
