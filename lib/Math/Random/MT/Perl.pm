@@ -259,8 +259,6 @@ I<new()>.
 
 Retrieves the value of the seed used.
 
-=back
-
 =item rand($num)
 
 Behaves exactly like Perl's builtin I<rand()>, returning a number uniformly
