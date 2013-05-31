@@ -1,28 +1,13 @@
-use Test;
-use Cwd;
+use strict;
+use Test::More;
 
-#$ENV{RELEASE_TESTING}++;
-
-my $chdir = 0;
-if ( cwd() =~ m/t$/ ) {
-    chdir "..";
-    $chdir++;
-}
-
-eval { require Test::Kwalitee;};
+eval { require Test::Kwalitee; };
 
 if ($@) {
-    plan tests => 1;
-    skip("Test::Kwalitee not installed; skipping");
-}
-else {
-    if ( $ENV{RELEASE_TESTING} ) {
-        Test::Kwalitee->import();
-    }
-    else {
-        plan tests => 1;
-        skip( "Author only private tests" );
-    }
+   plan( skip_all => 'Test::Kwalitee not installed' );
+} else {
+   Test::Kwalitee->import(tests => ['-has_meta_yml']);
+   # No META.yml check, because it is generated when building the distro
 }
 
-chdir "t" if $chdir;  # back to t/
+# do not done_testing();
