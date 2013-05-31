@@ -7,7 +7,7 @@ eval { require Test::Spelling; };
 if ($@) {
    plan skip_all => 'Test::Spelling not available';
 } else {
-   Test::Spelling->import;
+   Test::Spelling->import();
    add_stopwords(<DATA>);
    my @poddirs = qw(lib ../lib);
    all_pod_files_spelling_ok(all_pod_files( @poddirs ));

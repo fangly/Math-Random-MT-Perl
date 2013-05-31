@@ -11,11 +11,12 @@ if ( cwd() =~ m/t$/ ) {
     $chdir++;
 }
 
-eval 'use Test::Pod::Coverage 1.00';
+eval { require Test::Pod::Coverage; };
 
 if ($@) {
-   plan skip_all => 'Test::Pod::Coverage >= 1.00 not available';
+   plan skip_all => 'Test::Pod::Coverage not available';
 } else {
+   Test::Pod::Coverage->import();
    all_pod_coverage_ok( { package => 'Math::Random::MT::Perl',
                           also_private => $ALSO_PRIVATE } );
 }
