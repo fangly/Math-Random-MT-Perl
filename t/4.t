@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 use Test::More;
 BEGIN {
    use_ok('Math::Random::MT::Perl', qw(srand rand irand));

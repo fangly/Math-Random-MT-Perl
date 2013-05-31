@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 use Test::More;
 use Test::Number::Delta within => 1e-14;
 BEGIN {

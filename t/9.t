@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 use Test::More;
 use Benchmark qw(timediff timestr);
 BEGIN {
