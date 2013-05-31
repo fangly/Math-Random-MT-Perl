@@ -1,35 +1,19 @@
-use Test;
-use Cwd;
-my $ASPELL = "C:\\usr\\Aspell\\bin\\aspell.exe";
+use strict;
+use warnings;
+use Test::More;
 
-#$ENV{RELEASE_TESTING}++;
-
-my $chdir = 0;
-
-if ( cwd() =~ m/t$/ ) {
-    chdir "..";
-    $chdir++;
-}
-
-eval { require Test::Spelling; Test::Spelling->import; };
+eval { require Test::Spelling; };
 
 if ($@) {
-    plan tests => 1;
-    skip("Test::Spelling not installed; skipping");
-}
-else {
-    if ( $ENV{RELEASE_TESTING} ) {
-        set_spell_cmd("$ASPELL -l");
-        add_stopwords(<DATA>);
-        all_pod_files_spelling_ok('lib');
-    }
-    else {
-        plan tests => 1;
-        skip( "Author only private tests" );
-    }
+   plan skip_all => 'Test::Spelling not available';
+} else {
+   Test::Spelling->import;
+   add_stopwords(<DATA>);
+   my @poddirs = qw(lib ../lib);
+   all_pod_files_spelling_ok(all_pod_files( @poddirs ));
 }
 
-chdir "t" if $chdir;  # back to t/
+done_testing;
 
 __DATA__
 CGI
@@ -44,3 +28,8 @@ RTFS
 James
 Freeman
 behaviour
+Florent
+Angly
+Matsumoto
+cryptographically
+

@@ -1,32 +1,25 @@
-use Test;
+use strict;
+use warnings;
+use Test::More;
 use Cwd;
 
 my $ALSO_PRIVATE = [ ];
 
-#$ENV{RELEASE_TESTING}++;
-
-my $chdir = 0;  # Test::Pod::Coverage is brain dead and won't find
-                # lib or blib when run from t/, nor can you tell it
-                # where to look
+my $chdir = 0;  # for when tests are run from t/
 if ( cwd() =~ m/t$/ ) {
-    chdir "..";
+    chdir '..';
     $chdir++;
 }
 
-eval "use Test::Pod::Coverage 1.00";
+eval 'use Test::Pod::Coverage 1.00';
 
 if ($@) {
-    plan tests => 1;
-    skip("Test::Pod::Coverage 1.00 required for testing POD");
-}
-else {
-    if ( $ENV{RELEASE_TESTING} ) {
-        all_pod_coverage_ok( { also_private => $ALSO_PRIVATE } );
-    }
-    else {
-        plan tests => 1;
-        skip( "Author only private tests" );
-    }
+   plan skip_all => 'Test::Pod::Coverage >= 1.00 not available';
+} else {
+   all_pod_coverage_ok( { package => 'Math::Random::MT::Perl',
+                          also_private => $ALSO_PRIVATE } );
 }
 
-chdir "t" if $chdir;  # back to t/
+chdir 't' if $chdir;  # back to t/
+
+done_testing();
