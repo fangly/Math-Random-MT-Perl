@@ -53,6 +53,6 @@ Revision history for Perl extension Math::Random::MT::Perl.
     - made set_seed() return the seed, as does Math::Random::MT
     - migrated test suite to Test::More and Test::Number::Delta
 
-1.11
+1.11 Fri May 31 2013
     - Improvement of unit tests
     
