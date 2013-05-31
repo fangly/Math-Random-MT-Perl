@@ -1,6 +1,11 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
 use Math::Random::MT::Perl;
 use Math::Random::MT;
 use Benchmark 'cmpthese';
+
 my $count = $ARGV[0] || 10000;
 print "Doing $count iterations\n";
 my $p = Math::Random::MT::Perl->new(1);
