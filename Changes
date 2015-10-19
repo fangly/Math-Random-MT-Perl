@@ -1,7 +1,8 @@
 Revision history for Perl module Math::Random::MT::Perl
 
 x.xx xxxx-xx-xx
-   - Stricter Kwalitee directory testing (#107821)
+   - Stricter Kwalitee directory testing (#107821, reported by Slaven Rezić)
+   - Moved some non-essential tests to xt/ (#101282, reported by Slaven Rezić)
 
 1.13 2013-10-30
     - Changes file as per CPAN::Changes::Spec (#88672, patch by Neil Bowers)

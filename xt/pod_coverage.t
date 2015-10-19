@@ -2,13 +2,15 @@ use strict;
 use warnings;
 use Test::More;
 use Cwd;
+use File::Spec;
 
 my $ALSO_PRIVATE = [ ];
 
-my $chdir = 0;  # for when tests are run from t/
-if ( cwd() =~ m/t$/ ) {
+my $chdir = undef;  # for when tests are run from t/ or xt/
+my $dirname = (File::Spec->splitdir(cwd()))[-1];
+if ( $dirname =~ m/^x?t$/ ) {
     chdir '..';
-    $chdir++;
+    $chdir = $dirname;
 }
 
 eval { require Test::Pod::Coverage; };
@@ -21,6 +23,6 @@ if ($@) {
                           also_private => $ALSO_PRIVATE } );
 }
 
-chdir 't' if $chdir;  # back to t/
+chdir $chdir if defined $chdir;  # back to t/ or xt/
 
 done_testing();
