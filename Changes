@@ -1,5 +1,8 @@
 Revision history for Perl module Math::Random::MT::Perl
 
+x.xx xxxx-xx-xx
+   - Stricter Kwalitee directory testing (#107821)
+
 1.13 2013-10-30
     - Changes file as per CPAN::Changes::Spec (#88672, patch by Neil Bowers)
 
