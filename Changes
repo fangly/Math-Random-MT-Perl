@@ -1,5 +1,8 @@
 Revision history for Perl module Math::Random::MT::Perl
 
+x.xx xxxx-xx-xx
+   - Exclude MYMETA files from tarball (#108108, reported by Alexandr Ciornii)
+
 1.14 2015-10-19
    - Stricter Kwalitee directory testing (#107821, reported by Slaven Rezić)
    - Moved some non-essential tests to xt/ (#101282, reported by Slaven Rezić)
