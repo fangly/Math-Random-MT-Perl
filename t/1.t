@@ -24,4 +24,7 @@ delta_ok $gen->rand(10), 9.688677710946649;
 delta_ok $gen->irand(123), 3922919429, 'irand() takes no argument'; # given argument does nothing
 delta_ok $gen->irand(123),  949333985;
 
+ok $gen = Math::Random::MT::Perl->new(0), '0 is a valid seed';
+is $gen->get_seed(), 0;
+
 done_testing();

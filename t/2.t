@@ -24,4 +24,7 @@ delta_ok rand(10), 9.688677710946649;
 delta_ok irand(123), 3922919429, 'irand() takes no argument'; # given argument does nothing
 delta_ok irand(123),  949333985;
 
+is srand(0), 0, '0 is a valid seed';
+
+
 done_testing();
