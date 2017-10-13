@@ -13,8 +13,8 @@ all pass. A script in /t called validate.pl tests the output of this module
 against the C version. No differences in output were detected in 10e8 trials
 with a single seed or 10e8 trials with 1000 random seeds.
 
-The only good reason to use this module is if you can't install
-Math::Random::MT or you want code to cut and paste into a project.
+The only good reason to use this module is if you can't install Math::Random::MT,
+need to use threads or you want code to cut and paste into a project.
 
 SPEED
 
